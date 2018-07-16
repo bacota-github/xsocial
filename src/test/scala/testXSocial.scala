@@ -31,17 +31,28 @@ object TestData {
 
     points += PointOfInterest("Nearby", 3, 2, 1) 
     val nearbyLoc = DeviceLocation("Nearby", ts, 3, 2+0.5*radiusDegrees)
-    locations +=  nearbyLoc
+    locations += nearbyLoc
     expected += nearbyLoc
 
     points += PointOfInterest("InRadius", 10, 10, 2*radius)
     val inradiusLoc = DeviceLocation("InRadius", ts, 10, 10+2.9*radiusDegrees)
-    locations +=  inradiusLoc
+    locations += inradiusLoc
     expected += inradiusLoc
 
     points += PointOfInterest("OutOfRadius", -9, -10, 2*radius)
     val outradiusLoc = DeviceLocation("OutOfRadius", ts, -9, -10-3.1*radiusDegrees)
     locations +=  outradiusLoc
+
+    points += PointOfInterest("InRadius2", 15, 15, radius)
+    val inradiusLoc2 = DeviceLocation("InRadius", ts,
+      15+1.2*radiusDegrees, 15+1.2*radiusDegrees)
+    locations += inradiusLoc2
+    expected += inradiusLoc2
+
+    points += PointOfInterest("OutOfRadius2", -15, -15, radius)
+    val outradiusLoc2 = DeviceLocation("OutOfRadius2", ts,
+      -15+1.5*radiusDegrees, -15+1.5*radiusDegrees)
+    locations += outradiusLoc2
 
     (points.toList, locations.toList, expected.toSet)
   }
