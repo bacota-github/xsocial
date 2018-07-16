@@ -1,3 +1,5 @@
+/* Code shared between two different solutions of the same problem. */
+
 import java.sql.Timestamp
 import math._
 
