@@ -28,21 +28,22 @@ object XSocialSql {
         p.latitude, p.longitude, p.radius, (p.radius)
       ))
 
-    //Columns used in joining DeviceLocations with (decorated) PointsOfInterest
+    //Columns to be used for joining DeviceLocations with (decorated)
+    //PointsOfInterest
     val latDiff = locations("latitude") - interestingWithDegrees("latitude")
     val longDiff = locations("longitude") - interestingWithDegrees("longitude")
     val maxDiff = interestingWithDegrees("radiusDegrees")+degrees(radiusMeters)
 
     //Use a join to find all pairs (DeviceLocation,PointOfInterest)
-    //that might be near enough to be candidates
+    //near enough to be candidates
     val neighbors: Dataset[(DeviceLocation,PointOfInterestWithDegrees)] =
       locations.joinWith(interestingWithDegrees,
         (latDiff < maxDiff) && (latDiff > -maxDiff) &&
           (longDiff < maxDiff) && (longDiff > -maxDiff)
       )
 
-    //Further filter using a more accurate distance check, then return
-    //just the DeviceLocation component of each pair
+    //Filter using a stricter distance check. Then return just the
+    //DeviceLocation component of each pair
     neighbors.filter( (p: (DeviceLocation,PointOfInterestWithDegrees)) =>
       distance(p._1,p._2) <= radiusMeters+p._2.radius
     ).map(_._1)
